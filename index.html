@@ -1,0 +1,732 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Âm nhạc của Thu Nga</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link rel="icon" type="image/x-icon" href="./src/img/0cc8c24447f0e8ed4f0fff78f5bb388a.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<div>
+
+    <audio src=""></audio>
+    <img src="" alt="">
+</div>
+<div class="player">
+  <!-- Dashboard -->
+  <div class="dashboard">
+    <!-- Header -->
+    <header>
+      <h4>Em đang nghe: </h4>
+      <h2>String 57th & 9th</h2>
+    </header>
+
+    <!-- CD -->
+    <div class="cd">
+      <div class="cd-thumb">
+      </div>
+    </div>
+
+    <!-- Control -->
+    <div class="control">
+      <div class="btn btn-repeat">
+        <i class="fas fa-redo"></i>
+      </div>
+      <div class="btn btn-prev">
+        <i class="fas fa-step-backward"></i>
+      </div>
+      <div class="btn btn-toggle-play">
+        <i class="fas fa-pause icon-pause"></i>
+        <i class="fas fa-play icon-play"></i>
+      </div>
+      <div class="btn btn-next">
+        <i class="fas fa-step-forward"></i>
+      </div>
+      <div class="btn btn-random">
+        <i class="fas fa-random"></i>
+      </div>
+    </div>
+
+    <input id="progress" class="progress" type="range" value="0" step="1" min="0" max="100">
+
+    <audio id="audio" src=""></audio>
+  </div>
+
+  <!-- Playlist -->
+  <div class="playlist">
+  </div>
+  <style>
+    :root {
+  --primary-color: #ec1f55;
+  --text-color: #333;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: inherit;
+}
+
+body {
+  background-color:black;
+}
+
+
+
+html {
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.player {
+  position: relative;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.player .icon-pause {
+  display: none;
+}
+
+.player.playing .icon-pause {
+  display: inline-block;
+}
+
+.player.playing .icon-play {
+  display: none;
+}
+
+.dashboard {
+  padding: 16px 16px 14px;
+  background-color: #fff;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  max-width: 480px;
+  border-bottom: 1px solid #ebebeb;
+}
+
+/* HEADER */
+header {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+header h4 {
+  color: var(--primary-color);
+  font-size: 12px;
+}
+
+header h2 {
+  color: var(--text-color);
+  font-size: 20px;
+}
+
+/* CD */
+.cd {
+  display: flex;
+  margin: auto;
+  width: 200px;
+}
+
+.cd-thumb {
+  width: 100%;
+  padding-top: 100%;
+  border-radius: 50%;
+  background-color: #333;
+  background-size: cover;
+  margin: auto;
+}
+
+/* CONTROL */
+.control {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 18px 0 8px 0;
+}
+
+.control .btn {
+  color: #666;
+  padding: 18px;
+  font-size: 18px;
+}
+
+.control .btn.active {
+  color: var(--primary-color);
+}
+
+.control .btn-toggle-play {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  font-size: 24px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-color);
+}
+
+.progress {
+  width: 100%;
+  -webkit-appearance: none;
+  height: 6px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: 0.2s;
+  transition: opacity 0.2s;
+}
+
+.progress::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 6px;
+  background-color: var(--primary-color);
+  cursor: pointer;
+}
+
+/* PLAYLIST */
+.playlist {
+  margin-top: 408px;
+  padding: 12px;
+}
+
+.song {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  background-color: #fff;
+  padding: 8px 16px;
+  border-radius: 5px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+}
+
+.song.active {
+  background-color: var(--primary-color);
+}
+
+.song:active {
+  opacity: 0.8;
+}
+
+.song.active .option,
+.song.active .author,
+.song.active .title {
+  color: #fff;
+}
+
+.song .thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-size: cover;
+  margin: 0 8px;
+}
+
+.song .body {
+  flex: 1;
+  padding: 0 16px;
+}
+
+.song .title {
+  font-size: 18px;
+  color: var(--text-color);
+}
+
+.song .author {
+  font-size: 12px;
+  color: #999;
+}
+
+.song .option {
+  padding: 16px 8px;
+  color: #999;
+  font-size: 18px;
+}
+
+  </style>
+  
+
+  <script>
+        alert('Chúc Em Bé nghe nhạc vui vẻ nè');
+  </script>
+  <script>
+                
+
+        const $ = document.querySelector.bind(document);
+        const $$ = document.querySelectorAll.bind(document);
+
+        const PlAYER_STORAGE_KEY = "F8_PLAYER";
+
+        const player = $(".player");
+        const cd = $(".cd");
+        const heading = $("header h2");
+        const cdThumb = $(".cd-thumb");
+        const audio = $("#audio");
+        const playBtn = $(".btn-toggle-play");
+        const progress = $("#progress");
+        const prevBtn = $(".btn-prev");
+        const nextBtn = $(".btn-next");
+        const randomBtn = $(".btn-random");
+        const repeatBtn = $(".btn-repeat");
+        const playlist = $(".playlist");
+
+        const app = {
+        currentIndex: 0,
+        isPlaying: false,
+        isRandom: false,
+        isRepeat: false,
+        config: {},
+        // (1/2) Uncomment the line below to use localStorage
+        // config: JSON.parse(localStorage.getItem(PlAYER_STORAGE_KEY)) || {},
+        songs: [
+            {
+            name: "Drawer",
+            singer: " 남혜승, Janet Suhh",
+            path: "./src/music/bai1.mp3",
+            image: "./src/img/0cc8c24447f0e8ed4f0fff78f5bb388a.jpg"
+            },
+            {
+            name: "Still Life",
+            singer: "Big Bang",
+            path: "./src/music/Still life.mp3",
+            image:
+                "./src/img/anh2.jpg"
+            },
+            {
+            name: "Pink Venom",
+            singer: "BlackPink",
+            path:
+                "./src/music/Pink Venom.mp3",
+            image: "./src/img/saostar-jdu8go6fut94nhd3.jpg"
+            },
+            {
+            name: "Good Boy",
+            singer: "GD X TAEYANG ",
+            path: "./src/music/y2mate.com - GD X TAEYANG  GOOD BOY MV.mp3",
+            image:
+                "./src/img/gdxtaeyang2.jpg"
+            },
+            {
+            name: "눈,코,입 (EYES, NOSE, LIPS) ",
+            singer: "TAEYANG",
+            path: "./src/music/y2mate.com - TAEYANG  눈코입 EYES NOSE LIPS MV.mp3",
+            image:
+                "./src/img/1484500204_image.jpg"
+            },
+            {
+            name: "Money",
+            singer: "Lisa",
+            path:
+                "./src/music/y2mate.com - LISA  MONEY EXCLUSIVE PERFORMANCE VIDEO.mp3",
+            image:
+                "./src/img/ye230.jpg"
+            },
+            {
+            name: "LALISA",
+            singer: "Lisa",
+            path:
+                "./src/music/y2mate.com - LISA  LALISA MV.mp3",
+            image:
+                "./src/img/syzqf0f0ffnkngd6_1641723488.webp"
+            },         
+            {
+            name: "Shiny Star",
+            singer: "KyoungSeo",
+            path:
+                "./src/music/y2mate.com -  Vietsub  Shiny star  Kyung Seo.mp3",
+            image:
+                "./src/img/starinthenightsky.png"
+            },
+            {
+            name: "Anh Nhớ Ra",
+            singer: "Vũ. (Feat. Trang)",
+            path:
+                "./src/music/y2mate.com - ANH NHỚ RA  Vũ Feat Trang  Official Audio.mp3",
+            image:
+                "./src/img/cute5.jpg"
+            },    
+            {
+            name: "Dù cho mai về sau",
+            singer: "Bùi Trường Linh",
+            path:
+                "./src/music/y2mate.com - Dù Cho Mai Về Sau Official Music Video  buitruonglinh.mp3",
+            image:
+                "./src/img/cute10.jpg"
+            },
+            {
+            name: "Đường tôi chở em về",
+            singer: "Bùi Trường Linh",
+            path:
+                "./src/music/y2mate.com - Đường Tôi Chở Em Về  buitruonglinh  Lyrics Video .mp3",
+            image:
+                "./src/img/pngtree-hand-drawn-cartoon-chinese-valentines-day-couple-riding-a-motorcycle-couple-png-image_362566.jpg"
+            },
+            {
+            name: "Chuyện rằng",
+            singer: "Thịnh Suy",
+            path:
+                "./src/music/y2mate.com - CHUYỆN RẰNG.mp3",
+            image:
+                "./src/img/cute3.jpg"
+            },
+            {
+            name: "Từ ngày em đến",
+            singer: "Da LAB",
+            path:
+                "./src/music/y2mate.com - Từ Ngày Em Đến  Da LAB Official MV.mp3",
+            image:
+                "./src/img/cute4.jpg"
+            },
+            {
+            name: "Đưa em về thanh xuân",
+            singer: "Da LAB",
+            path:
+                "./src/music/y2mate.com - Thanh Xuân  Da LAB Official MV.mp3",
+            image:
+                "./src/img/cute2.jpg"
+            },
+            {
+            name: "Gác lại âu lo",
+            singer: "Da LAB",
+            path:
+                "./src/music/y2mate.com - Gác lại âu lo  Da LAB ft Miu Lê Official MV.mp3",
+            image:
+                "./src/img/cute.jpg"
+            },
+        ],
+        setConfig: function (key, value) {
+            this.config[key] = value;
+            // (2/2) Uncomment the line below to use localStorage
+            // localStorage.setItem(PlAYER_STORAGE_KEY, JSON.stringify(this.config));
+        },
+        render: function () {
+            const htmls = this.songs.map((song, index) => {
+            return `
+                                <div class="song ${
+                                index === this.currentIndex ? "active" : ""
+                                }" data-index="${index}">
+                                    <div class="thumb"
+                                        style="background-image: url('${song.image}')">
+                                    </div>
+                                    <div class="body">
+                                        <h3 class="title">${song.name}</h3>
+                                        <p class="author">${song.singer}</p>
+                                    </div>
+                                    <div class="option">
+                                        <i class="fas fa-ellipsis-h"></i>
+                                    </div>
+                                </div>
+                            `;
+            });
+            playlist.innerHTML = htmls.join("");
+        },
+        defineProperties: function () {
+            Object.defineProperty(this, "currentSong", {
+            get: function () {
+                return this.songs[this.currentIndex];
+            }
+            });
+        },
+        handleEvents: function () {
+            const _this = this;
+            const cdWidth = cd.offsetWidth;
+
+           
+            const cdThumbAnimate = cdThumb.animate([{ transform: "rotate(360deg)" }], {
+            duration: 10000, // 10 seconds
+            iterations: Infinity
+            });
+            cdThumbAnimate.pause();
+
+            
+            document.onscroll = function () {
+            const scrollTop = window.scrollY || document.documentElement.scrollTop;
+            const newCdWidth = cdWidth - scrollTop;
+
+            cd.style.width = newCdWidth > 0 ? newCdWidth + "px" : 0;
+            cd.style.opacity = newCdWidth / cdWidth;
+            };
+
+            // Xử lý khi click play
+            
+            playBtn.onclick = function () {
+            if (_this.isPlaying) {
+                audio.pause();
+            } else {
+                audio.play();
+            }
+            };
+
+            // Khi song được play
+            
+            audio.onplay = function () {
+            _this.isPlaying = true;
+            player.classList.add("playing");
+            cdThumbAnimate.play();
+            };
+
+            // Khi song bị pause
+            
+            audio.onpause = function () {
+            _this.isPlaying = false;
+            player.classList.remove("playing");
+            cdThumbAnimate.pause();
+            };
+
+            // Khi tiến độ bài hát thay đổi
+           
+            audio.ontimeupdate = function () {
+            if (audio.duration) {
+                const progressPercent = Math.floor(
+                (audio.currentTime / audio.duration) * 100
+                );
+                progress.value = progressPercent;
+            }
+            };
+
+            // Xử lý khi tua song
+            // Handling when seek
+            progress.onchange = function (e) {
+            const seekTime = (audio.duration / 100) * e.target.value;
+            audio.currentTime = seekTime;
+            };
+
+            // Khi next song
+            // When next song
+            nextBtn.onclick = function () {
+            if (_this.isRandom) {
+                _this.playRandomSong();
+            } else {
+                _this.nextSong();
+            }
+            audio.play();
+            _this.render();
+            _this.scrollToActiveSong();
+            };
+
+            // Khi prev song
+            // When prev song
+            prevBtn.onclick = function () {
+            if (_this.isRandom) {
+                _this.playRandomSong();
+            } else {
+                _this.prevSong();
+            }
+            audio.play();
+            _this.render();
+            _this.scrollToActiveSong();
+            };
+
+            // Xử lý bật / tắt random song
+            // Handling on / off random song
+            randomBtn.onclick = function (e) {
+            _this.isRandom = !_this.isRandom;
+            _this.setConfig("isRandom", _this.isRandom);
+            randomBtn.classList.toggle("active", _this.isRandom);
+            };
+
+            // Xử lý lặp lại một song
+            // Single-parallel repeat processing
+            repeatBtn.onclick = function (e) {
+            _this.isRepeat = !_this.isRepeat;
+            _this.setConfig("isRepeat", _this.isRepeat);
+            repeatBtn.classList.toggle("active", _this.isRepeat);
+            };
+
+            // Xử lý next song khi audio ended
+            // Handle next song when audio ended
+            audio.onended = function () {
+            if (_this.isRepeat) {
+                audio.play();
+            } else {
+                nextBtn.click();
+            }
+            };
+
+            // Lắng nghe hành vi click vào playlist
+            // Listen to playlist clicks
+            playlist.onclick = function (e) {
+            const songNode = e.target.closest(".song:not(.active)");
+
+            if (songNode || e.target.closest(".option")) {
+                // Xử lý khi click vào song
+                // Handle when clicking on the song
+                if (songNode) {
+                _this.currentIndex = Number(songNode.dataset.index);
+                _this.loadCurrentSong();
+                _this.render();
+                audio.play();
+                }
+
+                // Xử lý khi click vào song option
+                // Handle when clicking on the song option
+                if (e.target.closest(".option")) {
+                }
+            }
+            };
+        },
+        scrollToActiveSong: function () {
+            setTimeout(() => {
+            $(".song.active").scrollIntoView({
+                behavior: "smooth",
+                block: "nearest"
+            });
+            }, 300);
+        },
+        loadCurrentSong: function () {
+            heading.textContent = this.currentSong.name;
+            cdThumb.style.backgroundImage = `url('${this.currentSong.image}')`;
+            audio.src = this.currentSong.path;
+        },
+        loadConfig: function () {
+            this.isRandom = this.config.isRandom;
+            this.isRepeat = this.config.isRepeat;
+        },
+        nextSong: function () {
+            this.currentIndex++;
+            if (this.currentIndex >= this.songs.length) {
+            this.currentIndex = 0;
+            }
+            this.loadCurrentSong();
+        },
+        prevSong: function () {
+            this.currentIndex--;
+            if (this.currentIndex < 0) {
+            this.currentIndex = this.songs.length - 1;
+            }
+            this.loadCurrentSong();
+        },
+        playRandomSong: function () {
+            let newIndex;
+            do {
+            newIndex = Math.floor(Math.random() * this.songs.length);
+            } while (newIndex === this.currentIndex);
+
+            this.currentIndex = newIndex;
+            this.loadCurrentSong();
+        },
+        start: function () {
+            
+            this.loadConfig();
+
+           
+            this.defineProperties();
+
+            
+            this.handleEvents();
+
+           
+            this.loadCurrentSong();
+
+           
+            this.render();
+
+            
+            randomBtn.classList.toggle("active", this.isRandom);
+            repeatBtn.classList.toggle("active", this.isRepeat);
+        }
+        };
+
+            app.start();
+
+        
+
+  </script>
+  <div class="snowflakes" aria-hidden="true">
+    <div class="snowflake">❅</div>
+    <div class="snowflake">❆</div>
+    <div class="snowflake">❅</div>
+    <div class="snowflake">❆</div>
+    <div class="snowflake">❅</div>
+    <div class="snowflake">❆</div>
+    <div class="snowflake">❅</div>
+    <div class="snowflake">❆</div>
+    <div class="snowflake">❅</div>
+    <div class="snowflake">❆</div>
+    <div class="snowflake">❅</div>
+    <div class="snowflake">❆</div>
+  </div>
+  <style>
+    @-webkit-keyframes snowflakes-fall {
+      0% {top:-10%}
+      100% {top:100%}
+    }
+    @-webkit-keyframes snowflakes-shake {
+      0%,100% {-webkit-transform:translateX(0);transform:translateX(0)}
+      50% {-webkit-transform:translateX(80px);transform:translateX(80px)}
+    }
+    @keyframes snowflakes-fall {
+      0% {top:-10%}
+      100% {top:100%}
+    }
+    @keyframes snowflakes-shake {
+      0%,100%{ transform:translateX(0)}
+      50% {transform:translateX(80px)}
+    }
+    .snowflake {
+      color: #fff;
+      font-size: 1em;
+      font-family: Arial, sans-serif;
+      text-shadow: 0 0 5px #000;
+      position:fixed;
+      top:-10%;
+      z-index:9999;
+      -webkit-user-select:none;
+      -moz-user-select:none;
+      -ms-user-select:none;
+      user-select:none;
+      cursor:default;
+      -webkit-animation-name:snowflakes-fall,snowflakes-shake;
+      -webkit-animation-duration:10s,3s;
+      -webkit-animation-timing-function:linear,ease-in-out;
+      -webkit-animation-iteration-count:infinite,infinite;
+      -webkit-animation-play-state:running,running;
+      animation-name:snowflakes-fall,snowflakes-shake;
+      animation-duration:10s,3s;
+      animation-timing-function:linear,ease-in-out;
+      animation-iteration-count:infinite,infinite;
+      animation-play-state:running,running;
+    }
+    .snowflake:nth-of-type(0){
+      left:1%;-webkit-animation-delay:0s,0s;animation-delay:0s,0s
+    }
+    .snowflake:nth-of-type(1){
+      left:10%;-webkit-animation-delay:1s,1s;animation-delay:1s,1s
+    }
+    .snowflake:nth-of-type(2){
+      left:20%;-webkit-animation-delay:6s,.5s;animation-delay:6s,.5s
+    }
+    .snowflake:nth-of-type(3){
+      left:30%;-webkit-animation-delay:4s,2s;animation-delay:4s,2s
+    }
+    .snowflake:nth-of-type(4){
+      left:40%;-webkit-animation-delay:2s,2s;animation-delay:2s,2s
+    }
+    .snowflake:nth-of-type(5){
+      left:50%;-webkit-animation-delay:8s,3s;animation-delay:8s,3s
+    }
+    .snowflake:nth-of-type(6){
+      left:60%;-webkit-animation-delay:6s,2s;animation-delay:6s,2s
+    }
+    .snowflake:nth-of-type(7){
+      left:70%;-webkit-animation-delay:2.5s,1s;animation-delay:2.5s,1s
+    }
+    .snowflake:nth-of-type(8){
+      left:80%;-webkit-animation-delay:1s,0s;animation-delay:1s,0s
+    }
+    .snowflake:nth-of-type(9){
+      left:90%;-webkit-animation-delay:3s,1.5s;animation-delay:3s,1.5s
+    }
+    .snowflake:nth-of-type(10){
+      left:25%;-webkit-animation-delay:2s,0s;animation-delay:2s,0s
+    }
+    .snowflake:nth-of-type(11){
+      left:65%;-webkit-animation-delay:4s,2.5s;animation-delay:4s,2.5s
+    }
+  </style>
+  
+  
+</div>
+
